@@ -2,9 +2,12 @@
 
 # Used directories
 REF_GENOME = "Data/genome.fa"  # is already indexed
+#genome_dict = "Data/genome.dict" # gatk CreateSequenceDictionary -R Data/genome.fa -O Data/genome.dict
+known_sites = "Data/Homo_sapiens_assembly38.dbsnp138.vcf"
 FastQ_Dir = "Data/samples"
 fastqc_dir = "Data/fastqc"
 aligned_reads = "Data/aligned_bam"
+variants = "Data/variants"
 SAMPLES = ["A", "B", "C"]
 
 rule setup_directories:
@@ -12,7 +15,7 @@ rule setup_directories:
         touch("Data/.setup_done")
     shell:
         """
-        mkdir -p {fastqc_dir} {aligned_reads}
+        mkdir -p {fastqc_dir} {aligned_reads} {variants}
         touch Data/.setup_done
         """
 
@@ -23,7 +26,10 @@ rule all:
         expand(fastqc_dir + "/{sample}_fastqc.zip", sample=SAMPLES),
         expand(aligned_reads + "/{sample}_sorted.bam", sample=SAMPLES),
         expand(aligned_reads + "/{sample}_marked_sorted.bam", sample=SAMPLES),
-        expand(aligned_reads + "/{sample}_marked_sorted.bai", sample=SAMPLES)
+        expand(aligned_reads + "/{sample}_marked_sorted.bai", sample=SAMPLES),
+        expand(aligned_reads + "/{sample}.recal.table", sample=SAMPLES),
+        expand(aligned_reads + "/{sample}_recal_bqsr.bam", sample=SAMPLES)
+
 
 rule fastqc:
     input:
@@ -55,9 +61,9 @@ rule map_reads:
         aligned_reads + "/{sample}.map.log"
     shell:
         """
-        mkdir -p {aligned_reads}
-        echo 'Run BWA - Mapping'
-        bwa mem -t {params.threads} -R "@RG\\tID:{wildcards.sample}\\tPL:ILLUMINA\\tSM:{wildcards.sample}" \
+        bwa mem \
+        -t {params.threads} \
+        -R "@RG\\tID:{wildcards.sample}\\tPL:ILLUMINA\\tSM:{wildcards.sample}" \
         {input.reference} {input.fastq} 2> {log} | samtools view -bS - > {output.bam}
         """
 
@@ -97,3 +103,32 @@ rule mark_duplicates:
         -VALIDATION_STRINGENCY LENIENT \
         -MAX_RECORDS_IN_RAM 1000000 2> {log}
         """
+# base recalibration (optional)
+rule base_recalibration:
+    input:
+        marked_bam = aligned_reads + "/{sample}_marked_sorted.bam",
+        known = known_sites,
+        reference = REF_GENOME
+    output:
+        recal = aligned_reads + "/{sample}.recal.table",
+        recal_bam = aligned_reads + "/{sample}_recal_bqsr.bam"
+    log:
+        aligned_reads + "/{sample}.recal.log"
+    shell:
+        """
+        set -e
+        echo 'Running BaseRecalibrator for {sample}'
+        gatk --java-options "-Xmx{params.memory}" BaseRecalibrator \
+        -I {input.marked_bam} \
+        -R {input.reference} \
+        --known-sites {input.known} \
+        -O {output.recal} 2>> {log}
+        
+        echo 'Applying BQSR for {sample}'
+        gatk --java-options "-Xmx{params.memory}" ApplyBQSR \
+        -I {input.marked_bam} \
+        -R {input.reference} \
+        --bqsr-recal-file {output.recal} \
+        -O {output.recal_bam} 2>> {log}
+        """
+
