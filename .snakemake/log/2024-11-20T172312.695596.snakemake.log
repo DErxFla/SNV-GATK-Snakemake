@@ -1,0 +1,318 @@
+host: MacBook-Pro-von-Flavia.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                  count
+-----------------  -------
+all                      1
+haplotype_caller         3
+map_reads                3
+mark_duplicates          3
+select_indels            3
+select_snps              3
+setup_directories        1
+sort_bam                 3
+total                   20
+
+Select jobs to execute...
+Execute 4 jobs...
+
+[Wed Nov 20 17:23:12 2024]
+localrule setup_directories:
+    output: Data/.setup_done
+    jobid: 1
+    reason: Forced execution
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:12 2024]
+localrule map_reads:
+    input: Data/samples/A.fastq, Data/genome.fa
+    output: Data/aligned_bam/A_aligned.bam
+    log: Data/aligned_bam/A.map.log
+    jobid: 6
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:12 2024]
+localrule map_reads:
+    input: Data/samples/B.fastq, Data/genome.fa
+    output: Data/aligned_bam/B_aligned.bam
+    log: Data/aligned_bam/B.map.log
+    jobid: 11
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:12 2024]
+localrule map_reads:
+    input: Data/samples/C.fastq, Data/genome.fa
+    output: Data/aligned_bam/C_aligned.bam
+    log: Data/aligned_bam/C.map.log
+    jobid: 16
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+Touching output file Data/.setup_done.
+[Wed Nov 20 17:23:12 2024]
+Finished job 1.
+1 of 20 steps (5%) done
+[Wed Nov 20 17:23:13 2024]
+Finished job 6.
+2 of 20 steps (10%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Wed Nov 20 17:23:13 2024]
+localrule sort_bam:
+    input: Data/aligned_bam/A_aligned.bam
+    output: Data/aligned_bam/A_sorted.bam
+    log: Data/aligned_bam/A.sort.log
+    jobid: 5
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:13 2024]
+Finished job 11.
+3 of 20 steps (15%) done
+[Wed Nov 20 17:23:13 2024]
+Finished job 16.
+4 of 20 steps (20%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 17:23:13 2024]
+localrule sort_bam:
+    input: Data/aligned_bam/B_aligned.bam
+    output: Data/aligned_bam/B_sorted.bam
+    log: Data/aligned_bam/B.sort.log
+    jobid: 10
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:13 2024]
+localrule sort_bam:
+    input: Data/aligned_bam/C_aligned.bam
+    output: Data/aligned_bam/C_sorted.bam
+    log: Data/aligned_bam/C.sort.log
+    jobid: 15
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:13 2024]
+Finished job 5.
+5 of 20 steps (25%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Wed Nov 20 17:23:13 2024]
+localrule mark_duplicates:
+    input: Data/aligned_bam/A_sorted.bam
+    output: Data/aligned_bam/A_marked_sorted.bam, Data/aligned_bam/A_marked_sorted.bai
+    log: Data/aligned_bam/A.mark.log
+    jobid: 4
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:13 2024]
+Finished job 10.
+6 of 20 steps (30%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Wed Nov 20 17:23:13 2024]
+localrule mark_duplicates:
+    input: Data/aligned_bam/B_sorted.bam
+    output: Data/aligned_bam/B_marked_sorted.bam, Data/aligned_bam/B_marked_sorted.bai
+    log: Data/aligned_bam/B.mark.log
+    jobid: 9
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:13 2024]
+Finished job 15.
+7 of 20 steps (35%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Wed Nov 20 17:23:13 2024]
+localrule mark_duplicates:
+    input: Data/aligned_bam/C_sorted.bam
+    output: Data/aligned_bam/C_marked_sorted.bam, Data/aligned_bam/C_marked_sorted.bai
+    log: Data/aligned_bam/C.mark.log
+    jobid: 14
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:15 2024]
+Finished job 4.
+8 of 20 steps (40%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Wed Nov 20 17:23:15 2024]
+localrule haplotype_caller:
+    input: Data/aligned_bam/A_marked_sorted.bam, Data/genome.fa
+    output: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi
+    log: Data/aligned_bam/A_haplotypecaller.log
+    jobid: 3
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:15 2024]
+Finished job 9.
+9 of 20 steps (45%) done
+[Wed Nov 20 17:23:15 2024]
+Finished job 14.
+10 of 20 steps (50%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 17:23:15 2024]
+localrule haplotype_caller:
+    input: Data/aligned_bam/C_marked_sorted.bam, Data/genome.fa
+    output: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi
+    log: Data/aligned_bam/C_haplotypecaller.log
+    jobid: 13
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:15 2024]
+localrule haplotype_caller:
+    input: Data/aligned_bam/B_marked_sorted.bam, Data/genome.fa
+    output: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi
+    log: Data/aligned_bam/B_haplotypecaller.log
+    jobid: 8
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:19 2024]
+Finished job 3.
+11 of 20 steps (55%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 17:23:19 2024]
+localrule select_snps:
+    input: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/A_snps.vcf.gz, Data/variants/A_snps.vcf.gz.tbi
+    log: Data/variants/A_select_snps.log
+    jobid: 2
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:19 2024]
+localrule select_indels:
+    input: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/A_indels.vcf.gz, Data/variants/A_indels.vcf.gz.tbi
+    log: Data/variants/A_select_indels.log
+    jobid: 17
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:20 2024]
+Finished job 13.
+12 of 20 steps (60%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 17:23:20 2024]
+localrule select_snps:
+    input: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/C_snps.vcf.gz, Data/variants/C_snps.vcf.gz.tbi
+    log: Data/variants/C_select_snps.log
+    jobid: 12
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:20 2024]
+localrule select_indels:
+    input: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/C_indels.vcf.gz, Data/variants/C_indels.vcf.gz.tbi
+    log: Data/variants/C_select_indels.log
+    jobid: 19
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:20 2024]
+Finished job 8.
+13 of 20 steps (65%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 17:23:20 2024]
+localrule select_indels:
+    input: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/B_indels.vcf.gz, Data/variants/B_indels.vcf.gz.tbi
+    log: Data/variants/B_select_indels.log
+    jobid: 18
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 17:23:20 2024]
+localrule select_snps:
+    input: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/B_snps.vcf.gz, Data/variants/B_snps.vcf.gz.tbi
+    log: Data/variants/B_select_snps.log
+    jobid: 7
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:23 2024]
+Finished job 2.
+14 of 20 steps (70%) done
+[Wed Nov 20 17:23:23 2024]
+Finished job 17.
+15 of 20 steps (75%) done
+[Wed Nov 20 17:23:23 2024]
+Finished job 12.
+16 of 20 steps (80%) done
+[Wed Nov 20 17:23:23 2024]
+Finished job 18.
+17 of 20 steps (85%) done
+[Wed Nov 20 17:23:23 2024]
+Finished job 19.
+18 of 20 steps (90%) done
+[Wed Nov 20 17:23:23 2024]
+Finished job 7.
+19 of 20 steps (95%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Wed Nov 20 17:23:23 2024]
+localrule all:
+    input: Data/.setup_done, Data/variants/A_snps.vcf.gz, Data/variants/B_snps.vcf.gz, Data/variants/C_snps.vcf.gz, Data/variants/A_indels.vcf.gz, Data/variants/B_indels.vcf.gz, Data/variants/C_indels.vcf.gz
+    jobid: 0
+    reason: Forced execution
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 17:23:23 2024]
+Finished job 0.
+20 of 20 steps (100%) done
+Complete log: .snakemake/log/2024-11-20T172312.695596.snakemake.log

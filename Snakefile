@@ -19,13 +19,13 @@ reference_genome = config["input_files"]["reference_genome"]
 rule all:
     input:
         "Data/.setup_done",
-        expand(fastqc_dir + "/{sample}_fastqc.html", sample=samples),
-        expand(fastqc_dir + "/{sample}_fastqc.zip", sample=samples),
-        expand(aligned_reads + "/{sample}_sorted.bam", sample=samples),
-        expand(aligned_reads + "/{sample}_marked_sorted.bam", sample=samples),
-        expand(aligned_reads + "/{sample}_marked_sorted.bai", sample=samples),
-        expand(aligned_reads + "/{sample}.g.vcf.gz", sample=samples),
-        expand(aligned_reads + "/{sample}.g.vcf.gz.tbi", sample=samples),
+        # expand(fastqc_dir + "/{sample}_fastqc.html", sample=samples),
+        # expand(fastqc_dir + "/{sample}_fastqc.zip", sample=samples),
+        # expand(aligned_reads + "/{sample}_sorted.bam", sample=samples),
+        # expand(aligned_reads + "/{sample}_marked_sorted.bam", sample=samples),
+        # expand(aligned_reads + "/{sample}_marked_sorted.bai", sample=samples),
+        # expand(aligned_reads + "/{sample}.g.vcf.gz", sample=samples),
+        # expand(aligned_reads + "/{sample}.g.vcf.gz.tbi", sample=samples),
         expand(variants + "/{sample}_snps.vcf.gz", sample=samples),
         expand(variants + "/{sample}_indels.vcf.gz", sample=samples)
 
@@ -105,7 +105,7 @@ rule mark_duplicates:
         -I {input.sorted_bam} \
         -O {output.marked_bam} \
         -M {output.marked_bam}.metrics.txt \
-        -CREATE_INDEX true \    
+        -CREATE_INDEX true \
         -VALIDATION_STRINGENCY LENIENT \
         -MAX_RECORDS_IN_RAM 1000000 2> {log}
         """
