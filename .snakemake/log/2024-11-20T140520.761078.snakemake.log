@@ -1,0 +1,162 @@
+host: macbookpro.edu.ds.fhnw.ch
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                 count
+----------------  -------
+all                     1
+haplotype_caller        3
+select_indels           3
+select_snps             3
+total                  10
+
+Select jobs to execute...
+Execute 3 jobs...
+
+[Wed Nov 20 14:05:20 2024]
+localrule haplotype_caller:
+    input: Data/aligned_bam/C_marked_sorted.bam, Data/genome.fa
+    output: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi
+    log: Data/aligned_bam/C_haplotypecaller.log
+    jobid: 16
+    reason: Code has changed since last execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 14:05:20 2024]
+localrule haplotype_caller:
+    input: Data/aligned_bam/A_marked_sorted.bam, Data/genome.fa
+    output: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi
+    log: Data/aligned_bam/A_haplotypecaller.log
+    jobid: 14
+    reason: Code has changed since last execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 14:05:20 2024]
+localrule haplotype_caller:
+    input: Data/aligned_bam/B_marked_sorted.bam, Data/genome.fa
+    output: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi
+    log: Data/aligned_bam/B_haplotypecaller.log
+    jobid: 15
+    reason: Code has changed since last execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 14:05:25 2024]
+Finished job 14.
+1 of 10 steps (10%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 14:05:25 2024]
+localrule select_snps:
+    input: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/A_snps.vcf.gz, Data/variants/A_snps.vcf.gz.tbi
+    log: Data/variants/A_select_snps.log
+    jobid: 17
+    reason: Missing output files: Data/variants/A_snps.vcf.gz; Input files updated by another job: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 14:05:25 2024]
+localrule select_indels:
+    input: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/A_indels.vcf.gz, Data/variants/A_indels.vcf.gz.tbi
+    log: Data/variants/A_select_indels.log
+    jobid: 20
+    reason: Missing output files: Data/variants/A_indels.vcf.gz; Input files updated by another job: Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 14:05:25 2024]
+Finished job 15.
+2 of 10 steps (20%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 14:05:25 2024]
+localrule select_indels:
+    input: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/B_indels.vcf.gz, Data/variants/B_indels.vcf.gz.tbi
+    log: Data/variants/B_select_indels.log
+    jobid: 21
+    reason: Missing output files: Data/variants/B_indels.vcf.gz; Input files updated by another job: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 14:05:25 2024]
+localrule select_snps:
+    input: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/B_snps.vcf.gz, Data/variants/B_snps.vcf.gz.tbi
+    log: Data/variants/B_select_snps.log
+    jobid: 18
+    reason: Missing output files: Data/variants/B_snps.vcf.gz; Input files updated by another job: Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 14:05:25 2024]
+Finished job 16.
+3 of 10 steps (30%) done
+Select jobs to execute...
+Execute 2 jobs...
+
+[Wed Nov 20 14:05:25 2024]
+localrule select_snps:
+    input: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/C_snps.vcf.gz, Data/variants/C_snps.vcf.gz.tbi
+    log: Data/variants/C_select_snps.log
+    jobid: 19
+    reason: Missing output files: Data/variants/C_snps.vcf.gz; Input files updated by another job: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Wed Nov 20 14:05:25 2024]
+localrule select_indels:
+    input: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi, Data/genome.fa
+    output: Data/variants/C_indels.vcf.gz, Data/variants/C_indels.vcf.gz.tbi
+    log: Data/variants/C_select_indels.log
+    jobid: 22
+    reason: Missing output files: Data/variants/C_indels.vcf.gz; Input files updated by another job: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 14:05:28 2024]
+Finished job 17.
+4 of 10 steps (40%) done
+[Wed Nov 20 14:05:28 2024]
+Finished job 18.
+5 of 10 steps (50%) done
+[Wed Nov 20 14:05:28 2024]
+Finished job 20.
+6 of 10 steps (60%) done
+[Wed Nov 20 14:05:28 2024]
+Finished job 22.
+7 of 10 steps (70%) done
+[Wed Nov 20 14:05:28 2024]
+Finished job 21.
+8 of 10 steps (80%) done
+[Wed Nov 20 14:05:28 2024]
+Finished job 19.
+9 of 10 steps (90%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Wed Nov 20 14:05:28 2024]
+localrule all:
+    input: Data/.setup_done, Data/fastqc/A_fastqc.html, Data/fastqc/B_fastqc.html, Data/fastqc/C_fastqc.html, Data/fastqc/A_fastqc.zip, Data/fastqc/B_fastqc.zip, Data/fastqc/C_fastqc.zip, Data/aligned_bam/A_sorted.bam, Data/aligned_bam/B_sorted.bam, Data/aligned_bam/C_sorted.bam, Data/aligned_bam/A_marked_sorted.bam, Data/aligned_bam/B_marked_sorted.bam, Data/aligned_bam/C_marked_sorted.bam, Data/aligned_bam/A_marked_sorted.bai, Data/aligned_bam/B_marked_sorted.bai, Data/aligned_bam/C_marked_sorted.bai, Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz, Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi, Data/aligned_bam/B.g.vcf.gz.tbi, Data/aligned_bam/C.g.vcf.gz.tbi, Data/variants/A_snps.vcf.gz, Data/variants/B_snps.vcf.gz, Data/variants/C_snps.vcf.gz, Data/variants/A_indels.vcf.gz, Data/variants/B_indels.vcf.gz, Data/variants/C_indels.vcf.gz
+    jobid: 0
+    reason: Input files updated by another job: Data/aligned_bam/C.g.vcf.gz, Data/aligned_bam/B.g.vcf.gz, Data/variants/B_snps.vcf.gz, Data/variants/B_indels.vcf.gz, Data/aligned_bam/C.g.vcf.gz.tbi, Data/variants/A_snps.vcf.gz, Data/aligned_bam/B.g.vcf.gz.tbi, Data/variants/A_indels.vcf.gz, Data/variants/C_snps.vcf.gz, Data/variants/C_indels.vcf.gz, Data/aligned_bam/A.g.vcf.gz, Data/aligned_bam/A.g.vcf.gz.tbi
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Wed Nov 20 14:05:28 2024]
+Finished job 0.
+10 of 10 steps (100%) done
+Complete log: .snakemake/log/2024-11-20T140520.761078.snakemake.log

@@ -1,0 +1,13 @@
+host: macbookpro.edu.ds.fhnw.ch
+Building DAG of jobs...
+WorkflowError:
+MissingInputException: Missing input files for rule map_reads:
+    output: Data/aligned_bam/{wildcards.sample}_aligned.bam
+    wildcards: sample={wildcards.sample}
+    affected files:
+        Data/samples/{wildcards.sample}.fastq
+MissingInputException: Missing input files for rule map_reads:
+    output: Data/aligned_bam/{wildcards.sample}_marked_aligned.bam
+    wildcards: sample={wildcards.sample}_marked
+    affected files:
+        Data/samples/{wildcards.sample}_marked.fastq

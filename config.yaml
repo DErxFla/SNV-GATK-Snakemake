@@ -1,0 +1,13 @@
+samples: # Input Samples
+  - A
+  - B
+  - C
+
+folders:
+  FastQ_Dir: "Data/samples"  # Directory with FastQ files
+  fastqc_dir: "Data/fastqc"  # Directory for FastQC outputs
+  aligned_reads: "Data/aligned_bam"  # Directory for BAM files
+  variants: "Data/variants"  # Directory for variant files
+
+input_files:
+  reference_genome: "Data/genome.fa" # Reference Genome
