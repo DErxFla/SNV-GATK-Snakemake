@@ -1,22 +1,33 @@
 # SNV-GATK-Snakemake
+This repository contains a Snakemake-based workflow designed as part of a project for the Computer and Software Architecture module in the Master’s in Data Science program.
 
-project in accordance....all names here
+## Project Background
+This project implements a workflow for genomic data processing, specifically focusing on Single Nucleotide Variant (SNV) discovery. The workflow follows established best practices and guidelines to ensure scientific accuracy and reproducibility.
 
-## Description
-This project is a pipeline for variant calling using the GATK (Genomic Analysis Toolkit) and Snakemake
-short explanation of what SNV is and why its important 
+# Guidelines Followed
 
+We designed and implemented the workflow by closely following the GATK Best Practices for Germline Short Variant Discovery, as described in the GATK official documentation and tutorials.
+
+The GATK guideline provided step-by-step instructions for:
+	1.	Pre-processing sequencing data:
+	•	Marking duplicates, sorting BAM files, and recalibrating base quality scores.
+	2.	Variant discovery:
+	•	Employing the GVCF-based pipeline using HaplotypeCaller.
+	3.	Variant filtering:
+	•	Selecting and filtering SNPs and Indels for downstream analysis.
+
+This guideline served as the foundation for building the Snakemake pipeline, ensuring our workflow adheres to the same standards recommended by experts in the field.
+ 
 ### Tools
 
-
 ## Workflow for variant calling using GATK and Snakemake
-short explanation of each rule (bulletpoints
-)
-Data preparation: ​
 
-setup_directories: creates output directories​
+### Data preparation: ​
 
-fastqc: runs quality control FASTQC over FASTQ files​
+- Setup: Creates necessary directories for storing output files.
+    a configuration file that contains paths, input filenames and setting used withthis workflow
+- fastqc: 
+    runs quality control FASTQC over FASTQ files​  generate quality reports for raw FASTQ files.
 
 (Daniela from here)
 
@@ -27,7 +38,7 @@ sort_bam: sorts the unsorted BAM files using Samtools​
 mark_duplicates: marks duplicate reads using GATK MarkDuplicates​
 
 ​
-Variant calling: ​
+### Variant calling: ​
 
 haplotype_caller: calls variants using GATK Haplotype caller, outputs GVCF files​
 
