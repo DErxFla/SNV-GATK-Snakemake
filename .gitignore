@@ -1,5 +1,6 @@
 /Data
 /download_tutorial
-/*.png
-/*.svg
+# Ignore all PNG and SVG files in the repo
+*.png
+*.svg
 .DS_Store
