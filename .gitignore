@@ -1,5 +1,5 @@
-/Data
-/download_tutorial
+Data/
+download_tutorial/
 # Ignore all PNG and SVG files in the repo
 *.png
 *.svg
