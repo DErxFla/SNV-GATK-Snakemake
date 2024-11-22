@@ -1,4 +1,5 @@
 # Snakefile
+# written by Flavia
 
 configfile: "config.yaml"
 
