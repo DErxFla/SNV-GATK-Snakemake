@@ -9,12 +9,12 @@ This project implements a workflow for genomic data processing, specifically foc
 We designed and implemented the workflow by closely following the GATK Best Practices for Germline Short Variant Discovery, as described in the GATK official documentation and tutorials.
 
 The GATK guideline provided step-by-step instructions for:
-	1.	Pre-processing sequencing data:
-	•	Marking duplicates, sorting BAM files, and recalibrating base quality scores.
-	2.	Variant discovery:
-	•	Employing the GVCF-based pipeline using HaplotypeCaller.
-	3.	Variant filtering:
-	•	Selecting and filtering SNPs and Indels for downstream analysis.
+1. Pre-processing sequencing data:
+    -  Marking duplicates, sorting BAM files, and recalibrating base quality scores.
+2. Variant discovery:
+    - Employing the GVCF-based pipeline using HaplotypeCaller.
+3. Variant filtering:
+    - Selecting and filtering SNPs and Indels for downstream analysis.
 
 This guideline served as the foundation for building the Snakemake pipeline, ensuring our workflow adheres to the same standards recommended by experts in the field.
  
