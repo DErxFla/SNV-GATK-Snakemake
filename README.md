@@ -1,5 +1,5 @@
 # SNV-GATK-Snakemake
-This repository contains a Snakemake-based workflow designed as part of a project for the Computer and Software Architecture module in the Master’s in Data Science program.
+This repository contains a Snakemake-based workflow designed as part of a project for the Computer and Software Architecture module in the Master’s in Data Science program at FHNW.
 
 ## Project Background
 This project implements a workflow for genomic data processing, specifically focusing on Single Nucleotide Variant (SNV) discovery. The workflow follows established best practices and guidelines to ensure scientific accuracy and reproducibility.
@@ -27,39 +27,51 @@ This guideline served as the foundation for building the Snakemake pipeline, ens
 - Python: v3.8+
 - Java: v1.8+
 
-## Workflow for variant calling using GATK and Snakemake
+## Workflow for variant calling using GATK and Snakemake (pipeline rules)
 
 ### Data preparation: ​
 
-- Setup: Creates necessary directories for storing output files.
-    a configuration file that contains paths, input filenames and setting used withthis workflow
+- setup_directories: Creates necessary directories for storing output files.
+    A configuration file that contains paths, input filenames and setting used withthis workflow
 - fastqc: 
-    runs quality control FASTQC over FASTQ files​  generate quality reports for raw FASTQ files.
+    Runs quality control FASTQC over FASTQ files​  generate quality reports for raw FASTQ files.
+-map_reads: 
+    Aligns the raw sequencing reads to the reference genome using BWA, producing unsorted bam files for each sample. 
+-sort_bam: 
+    Sorts the bam files by genomic coordinates using Samtools. Prepares data for variant calling. 
+-mark_duplicates: 
+    Identifies and marks duplicate reads using GATK MarkDuplicates. 
 
-
-(Daniela from here)
-
-map_reads: maps reads to the reference genome using BWA​
-
-sort_bam: sorts the unsorted BAM files using Samtools​
-
-mark_duplicates: marks duplicate reads using GATK MarkDuplicates​
 
 ​
 ### Variant calling: ​
 
-haplotype_caller: calls variants using GATK Haplotype caller, outputs GVCF files​
+-haplotype_caller: 
+    Calls genetic variants for each sample using GATK HaplotypeCaller. Produces compressed GVCF files with raw variant data. 
 
-select_snps: extracts SNPs using GATK SelectVariants ​
+-select_snps: 
+    Extracts SNPs from the GVCF files using GATK SelectVariants. Produces compressed VCF files for each sample
 
-select_indels: extracts indels using GATK SelectVariants ​
-
-
+-select_indels: 
+    Same process for SNPS, but this extracts INDELs (insertions and deletions). Produces compressed VCF files for each sample.  ​
+    
 
 
 ## Visual Overview
 ![workflow_figure](rulegraph.svg)
 
+
+
 ## Future Improvements
-base recalibration
-indexing of reference genome 
+
+-Reference genome indexing: 
+   The reference genome used in this pipeline was already indexed; however, this might not always be the case and might become important if the pipeline is used with a non-referenced genome. To make the pipeline more reproducible, a rule to index the reference genome using 'bwa index' could be added. This would ensure compatibility with any genome that hasn’t been pre-indexed.
+
+-Adjustment of base quality score recalibration:
+    To reduce false positives caused by sequencing biases or errors, a rule to account for Base Quality Score Recalibration (BQSR) could be added. This would require using GATK's BaseRecalibrator and database of known variants for the given reference genome. Including this step would improve the accuracy of variant calling. 
+
+-Variant annotation 
+    The pipeline could introduce additional tools (ex. SnpEff or VEP) to annonate the identified variants and report whether these are found in coding regions, are of snynonymous/non-synonymous types, and are potentially pathogenic or not. 
+
+
+
