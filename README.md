@@ -8,6 +8,7 @@ short explanation of what SNV is and why its important
 
 ### Tools
 
+
 ## Workflow for variant calling using GATK and Snakemake
 short explanation of each rule (bulletpoints
 )
@@ -17,6 +18,8 @@ setup_directories: creates output directories​
 
 fastqc: runs quality control FASTQC over FASTQ files​
 
+(Daniela from here)
+
 map_reads: maps reads to the reference genome using BWA​
 
 sort_bam: sorts the unsorted BAM files using Samtools​
@@ -24,7 +27,6 @@ sort_bam: sorts the unsorted BAM files using Samtools​
 mark_duplicates: marks duplicate reads using GATK MarkDuplicates​
 
 ​
-
 Variant calling: ​
 
 haplotype_caller: calls variants using GATK Haplotype caller, outputs GVCF files​
