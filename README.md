@@ -67,10 +67,13 @@ This guideline served as the foundation for building the Snakemake pipeline, ens
 -Reference genome indexing: 
    The reference genome used in this pipeline was already indexed; however, this might not always be the case and might become important if the pipeline is used with a non-referenced genome. To make the pipeline more reproducible, a rule to index the reference genome using 'bwa index' could be added. This would ensure compatibility with any genome that hasn’t been pre-indexed.
 
+-Trimming:
+    Trimming improves the quality of the reads, which leads to better mapping accuracy and downstream variant calling.
+
 -Adjustment of base quality score recalibration:
     To reduce false positives caused by sequencing biases or errors, a rule to account for Base Quality Score Recalibration (BQSR) could be added. This would require using GATK's BaseRecalibrator and database of known variants for the given reference genome. Including this step would improve the accuracy of variant calling. 
 
--Variant annotation 
+-Variant annotation: 
     The pipeline could introduce additional tools (ex. SnpEff or VEP) to annonate the identified variants and report whether these are found in coding regions, are of snynonymous/non-synonymous types, and are potentially pathogenic or not. 
 
 
