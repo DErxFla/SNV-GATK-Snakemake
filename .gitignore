@@ -1,5 +1,6 @@
 /Data
 /download_tutorial
+/.snakemake
 bash_script.sh
 # Ignore all PNG and SVG files in the repo
 *.png
