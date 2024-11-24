@@ -1,4 +1,0 @@
-host: macbookpro.edu.ds.fhnw.ch
-Building DAG of jobs...
-MissingRuleException:
-No rule to produce rule (if you use input functions make sure that they don't raise unexpected exceptions).
