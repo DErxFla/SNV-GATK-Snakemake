@@ -6,7 +6,7 @@ samples: # Input Samples
 folders:
   FastQ_Dir: "Data/samples"  # Directory with FastQ files
   fastqc_dir: "Data/fastqc"  # Directory for FastQC outputs
-  aligned_reads: "Data/aligned_bam"  # Directory for BAM files
+  aligned_reads: "Data/aligned_reads"  # Directory for BAM files
   variants: "Data/variants"  # Directory for variant files
 
 input_files:

@@ -19,8 +19,8 @@ reference_genome = config["input_files"]["reference_genome"]
 rule all:
     input:
         "Data/.setup_done",
-        expand(variants + "/{sample}_snps.vcf.gz", sample=samples),
-        expand(variants + "/{sample}_indels.vcf.gz", sample=samples)
+        expand(variants + "/{sample}_snps.vcf", sample=samples),
+        expand(variants + "/{sample}_indels.vcf", sample=samples)
 
 # creates necessary directories for the outputs 
 rule setup_directories:
@@ -44,7 +44,7 @@ rule fastqc:
         output_dir = fastqc_dir
     shell:
         """
-        mkdir -p {params.output_dir}
+        echo 'Run FastQC - QC for {wildcards.sample}'
         fastqc {input.fastq} -o {params.output_dir}
         """
 
@@ -54,53 +54,28 @@ rule map_reads:
         fastq = FastQ_Dir + "/{sample}.fastq",
         reference = reference_genome
     output:
-        bam = aligned_reads + "/{sample}_aligned.bam"
-    params:
-        threads = 4
+        sam = aligned_reads + "/{sample}_aligned.sam"
     log:
         aligned_reads + "/{sample}.map.log"
     shell:
         """
-        bwa mem \
-        -t {params.threads} \
+        echo 'Map reads to reference genome - {wildcards.sample}'
+        bwa mem -t 6 \
         -R "@RG\\tID:{wildcards.sample}\\tPL:ILLUMINA\\tSM:{wildcards.sample}" \
-        {input.reference} {input.fastq} 2> {log} | samtools view -bS - > {output.bam}
+        {input.reference} {input.fastq} > {output.sam} 2> {log}
         """
-
-# Sorts the BAM file to prepare it for duplicate marking and downstream analysis
-rule sort_bam:
-    input:
-        unsorted_bam = aligned_reads + "/{sample}_aligned.bam"
-    output:
-        sorted_bam = aligned_reads + "/{sample}_sorted.bam"
-    log:
-        aligned_reads + "/{sample}.sort.log"
-    shell:
-        """
-        samtools sort -o {output.sorted_bam} {input.unsorted_bam} 2> {log}
-        """
-
 # Marks duplicate reads in the sorted BAM file 
-# CREATE_INDEX true --> index bam file for next step !
 rule mark_duplicates:
     input:
-        sorted_bam = aligned_reads + "/{sample}_sorted.bam"
+        aligned_sam = aligned_reads + "/{sample}_aligned.sam"
     output:
-        marked_bam = aligned_reads + "/{sample}_marked_sorted.bam",
-        index = aligned_reads + "/{sample}_marked_sorted.bai"
-    params:
-        memory = "4g"
+        marked_bam = aligned_reads + "/{sample}_marked_sorted.bam"
     log:
         aligned_reads + "/{sample}.mark.log"
     shell:
         """
-        gatk --java-options "-Xmx{params.memory}" MarkDuplicates \
-        -I {input.sorted_bam} \
-        -O {output.marked_bam} \
-        -M {output.marked_bam}.metrics.txt \
-        -CREATE_INDEX true \
-        -VALIDATION_STRINGENCY LENIENT \
-        -MAX_RECORDS_IN_RAM 1000000 2> {log}
+        echo 'Marking duplicates for {wildcards.sample}'
+        gatk MarkDuplicatesSpark -I {input.aligned_sam} -O {output.marked_bam}
         """
 
 # Calls variants using GATK's HaplotypeCaller and outputs a GVCF.
@@ -109,68 +84,41 @@ rule haplotype_caller:
         bam = aligned_reads + "/{sample}_marked_sorted.bam", 
         reference = reference_genome 
     output:
-        gvcf = aligned_reads + "/{sample}.g.vcf.gz",  
-        index = aligned_reads + "/{sample}.g.vcf.gz.tbi"  # index gvcf
+        vcf = variants + "/{sample}.vcf"  
     log:
-        aligned_reads + "/{sample}_haplotypecaller.log"
-    params:
-        memory = "4g",
-        ploidy = 2  # Adjust ploidy if working with non-diploid organisms !!
+        variants + "/{sample}_haplotypecaller.log"
     shell:
         """
-        gatk --java-options "-Xmx{params.memory}" HaplotypeCaller \
-        -R {input.reference} \
-        -I {input.bam} \
-        -O {output.gvcf} \
-        -ERC GVCF \
-        --native-pair-hmm-threads 4 \
-        --sample-ploidy {params.ploidy} \
-        2> {log}
+        echo 'Run HaplotypeCaller - {wildcards.sample}'
+        gatk HaplotypeCaller -R {input.reference} -I {input.bam} -O {output.vcf}
         """
 
 # Select Variants
 
-# Selects SNPs from the GVCF 
+# Selects SNPs from the VCF 
 rule select_snps:
     input:
-        gvcf = aligned_reads + "/{sample}.g.vcf.gz",
-        index = aligned_reads + "/{sample}.g.vcf.gz.tbi",
+        vcf = variants + "/{sample}.vcf",
         reference = reference_genome
     output:
-        snps = variants + "/{sample}_snps.vcf.gz",
-        snps_index = variants + "/{sample}_snps.vcf.gz.tbi"
+        snps = variants + "/{sample}_snps.vcf"
     log:
         variants + "/{sample}_select_snps.log"
-    params:
-        memory = "4g"
     shell:
         """
-        gatk --java-options "-Xmx{params.memory}" SelectVariants \
-        -R {input.reference} \
-        -V {input.gvcf} \
-        --select-type-to-include SNP \
-        -O {output.snps} \
-        2> {log}
+        echo 'Selecting SNPs for {wildcards.sample}'
+        gatk SelectVariants -R {input.reference} -V {input.vcf} --select-type SNP -O {output.snps}
         """
 # Selects INDELs from the GVCF
 rule select_indels:
     input:
-        gvcf = aligned_reads + "/{sample}.g.vcf.gz",
-        index = aligned_reads + "/{sample}.g.vcf.gz.tbi",
+        vcf = variants + "/{sample}.vcf",
         reference = reference_genome
     output:
-        indels = variants + "/{sample}_indels.vcf.gz",
-        indels_index = variants + "/{sample}_indels.vcf.gz.tbi"
+        indels = variants + "/{sample}_indels.vcf"
     log:
         variants + "/{sample}_select_indels.log"
-    params:
-        memory="4g"
     shell:
         """
-        gatk --java-options "-Xmx{params.memory}" SelectVariants \
-        -R {input.reference} \
-        -V {input.gvcf} \
-        --select-type-to-include INDEL \
-        -O {output.indels} \
-        2> {log}
+        gatk SelectVariants -R {input.reference} -V {input.vcf} --select-type INDEL -O {output.indels}
         """

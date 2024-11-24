@@ -1,0 +1,138 @@
+host: MacBook-Pro-von-Flavia.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+all                    1
+mark_duplicates        3
+total                  4
+
+Select jobs to execute...
+Execute 3 jobs...
+
+[Sun Nov 24 11:31:02 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/A_aligned.sam
+    output: Data/aligned_reads/A_marked_sorted.bam, Data/aligned_reads/A_marked_sorted.bam.bai, Data/aligned_reads/A_marked_sorted.bam.sbi
+    log: Data/aligned_reads/A.mark.log
+    jobid: 2
+    reason: Missing output files: Data/aligned_reads/A_marked_sorted.bam
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Sun Nov 24 11:31:02 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/B_aligned.sam
+    output: Data/aligned_reads/B_marked_sorted.bam, Data/aligned_reads/B_marked_sorted.bam.bai, Data/aligned_reads/B_marked_sorted.bam.sbi
+    log: Data/aligned_reads/B.mark.log
+    jobid: 4
+    reason: Missing output files: Data/aligned_reads/B_marked_sorted.bam
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Sun Nov 24 11:31:02 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/C_aligned.sam
+    output: Data/aligned_reads/C_marked_sorted.bam, Data/aligned_reads/C_marked_sorted.bam.bai, Data/aligned_reads/C_marked_sorted.bam.sbi
+    log: Data/aligned_reads/C.mark.log
+    jobid: 6
+    reason: Missing output files: Data/aligned_reads/C_marked_sorted.bam
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:31:07 2024]
+Error in rule mark_duplicates:
+    jobid: 4
+    input: Data/aligned_reads/B_aligned.sam
+    output: Data/aligned_reads/B_marked_sorted.bam, Data/aligned_reads/B_marked_sorted.bam.bai, Data/aligned_reads/B_marked_sorted.bam.sbi
+    log: Data/aligned_reads/B.mark.log (check log file(s) for error details)
+    shell:
+        
+        gatk MarkDuplicatesSpark -I Data/aligned_reads/B_aligned.sam -O Data/aligned_reads
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+[Sun Nov 24 11:31:07 2024]
+Error in rule mark_duplicates:
+    jobid: 2
+    input: Data/aligned_reads/A_aligned.sam
+    output: Data/aligned_reads/A_marked_sorted.bam, Data/aligned_reads/A_marked_sorted.bam.bai, Data/aligned_reads/A_marked_sorted.bam.sbi
+    log: Data/aligned_reads/A.mark.log (check log file(s) for error details)
+    shell:
+        
+        gatk MarkDuplicatesSpark -I Data/aligned_reads/A_aligned.sam -O Data/aligned_reads
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Traceback (most recent call last):
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/cli.py", line 2158, in args_to_api
+    dag_api.execute_workflow(
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/api.py", line 595, in execute_workflow
+    workflow.execute(
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/workflow.py", line 1264, in execute
+    raise e
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/workflow.py", line 1260, in execute
+    success = self.scheduler.schedule()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/scheduler.py", line 194, in schedule
+    self._finish_jobs()
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/scheduler.py", line 401, in _finish_jobs
+    async_run(postprocess())
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/common/__init__.py", line 90, in async_run
+    return asyncio.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/scheduler.py", line 350, in postprocess
+    await job.postprocess(
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/jobs.py", line 1187, in postprocess
+    raise e
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/jobs.py", line 1149, in postprocess
+    await self.dag.handle_log(self)
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/dag.py", line 892, in handle_log
+    f.touch_or_create()
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/io.py", line 758, in touch_or_create
+    self.touch()
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/io.py", line 754, in touch
+    raise e
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/io.py", line 743, in touch
+    lutime(self.file, times)
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/io.py", line 68, in lutime
+    success = lutime_raw(file, times)
+              ^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake_interface_common/utils.py", line 47, in lutime
+    os.utime(f, times, follow_symlinks=False)
+
+NotADirectoryError: [Errno 20] Not a directory
+

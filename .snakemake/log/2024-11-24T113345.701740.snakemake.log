@@ -1,0 +1,92 @@
+host: MacBook-Pro-von-Flavia.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                  count
+-----------------  -------
+all                      1
+map_reads                3
+mark_duplicates          3
+setup_directories        1
+total                    8
+
+Select jobs to execute...
+Execute 4 jobs...
+
+[Sun Nov 24 11:33:45 2024]
+localrule map_reads:
+    input: Data/samples/A.fastq, Data/genome.fa
+    output: Data/aligned_reads/A_aligned.sam
+    log: Data/aligned_reads/A.map.log
+    jobid: 3
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+Traceback (most recent call last):
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/cli.py", line 2158, in args_to_api
+    dag_api.execute_workflow(
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/api.py", line 595, in execute_workflow
+    workflow.execute(
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/workflow.py", line 1264, in execute
+    raise e
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/workflow.py", line 1260, in execute
+    success = self.scheduler.schedule()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/scheduler.py", line 314, in schedule
+    self.run(
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/scheduler.py", line 419, in run
+    executor.run_jobs(jobs)
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake_interface_executor_plugins/executors/base.py", line 72, in run_jobs
+    self.run_job(job)
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/executors/local.py", line 106, in run_job
+    future = self.run_single_job(job)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/executors/local.py", line 182, in run_single_job
+    self.cached_or_run, job, run_wrapper, *self.job_args_and_prepare(job)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/executors/local.py", line 114, in job_args_and_prepare
+    async_run(job.prepare())
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/common/__init__.py", line 90, in async_run
+    return asyncio.run(coroutine)
+           ^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/jobs.py", line 811, in prepare
+    await self.remove_existing_output()
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/jobs.py", line 781, in remove_existing_output
+    await f.remove(remove_non_empty_dir=False)
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/io.py", line 711, in remove
+    await remove(
+
+  File "/Users/flaviaderamo/miniforge3/envs/snakemake-tutorial/lib/python3.12/site-packages/snakemake/io.py", line 1026, in remove
+    os.remove(file)
+
+NotADirectoryError: [Errno 20] Not a directory: 'Data/aligned_reads/A_aligned.sam'
+

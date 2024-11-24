@@ -1,0 +1,119 @@
+host: MacBook-Pro-von-Flavia.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                count
+---------------  -------
+all                    1
+map_reads              3
+mark_duplicates        3
+total                  7
+
+Select jobs to execute...
+Execute 3 jobs...
+
+[Sun Nov 24 11:38:37 2024]
+localrule map_reads:
+    input: Data/samples/B.fastq, Data/genome.fa
+    output: Data/aligned_reads/B_aligned.sam
+    log: Data/aligned_reads/B.map.log
+    jobid: 5
+    reason: Code has changed since last execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Sun Nov 24 11:38:37 2024]
+localrule map_reads:
+    input: Data/samples/C.fastq, Data/genome.fa
+    output: Data/aligned_reads/C_aligned.sam
+    log: Data/aligned_reads/C.map.log
+    jobid: 7
+    reason: Code has changed since last execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Sun Nov 24 11:38:37 2024]
+localrule map_reads:
+    input: Data/samples/A.fastq, Data/genome.fa
+    output: Data/aligned_reads/A_aligned.sam
+    log: Data/aligned_reads/A.map.log
+    jobid: 3
+    reason: Code has changed since last execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:38:37 2024]
+Finished job 7.
+1 of 7 steps (14%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:38:37 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/C_aligned.sam
+    output: Data/aligned_reads/C_marked_sorted.bam
+    log: Data/aligned_reads/C.mark.log
+    jobid: 6
+    reason: Input files updated by another job: Data/aligned_reads/C_aligned.sam
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:38:37 2024]
+Finished job 5.
+2 of 7 steps (29%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:38:37 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/B_aligned.sam
+    output: Data/aligned_reads/B_marked_sorted.bam
+    log: Data/aligned_reads/B.mark.log
+    jobid: 4
+    reason: Input files updated by another job: Data/aligned_reads/B_aligned.sam
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:38:37 2024]
+Finished job 3.
+3 of 7 steps (43%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:38:37 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/A_aligned.sam
+    output: Data/aligned_reads/A_marked_sorted.bam
+    log: Data/aligned_reads/A.mark.log
+    jobid: 2
+    reason: Input files updated by another job: Data/aligned_reads/A_aligned.sam
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:38:43 2024]
+Finished job 6.
+4 of 7 steps (57%) done
+[Sun Nov 24 11:38:43 2024]
+Finished job 4.
+5 of 7 steps (71%) done
+[Sun Nov 24 11:38:43 2024]
+Finished job 2.
+6 of 7 steps (86%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:38:43 2024]
+localrule all:
+    input: Data/.setup_done, Data/aligned_reads/A_marked_sorted.bam, Data/aligned_reads/B_marked_sorted.bam, Data/aligned_reads/C_marked_sorted.bam
+    jobid: 0
+    reason: Input files updated by another job: Data/aligned_reads/A_marked_sorted.bam, Data/aligned_reads/C_marked_sorted.bam, Data/aligned_reads/B_marked_sorted.bam
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:38:43 2024]
+Finished job 0.
+7 of 7 steps (100%) done
+Complete log: .snakemake/log/2024-11-24T113837.466505.snakemake.log

@@ -1,0 +1,132 @@
+host: MacBook-Pro-von-Flavia.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                  count
+-----------------  -------
+all                      1
+map_reads                3
+mark_duplicates          3
+setup_directories        1
+total                    8
+
+Select jobs to execute...
+Execute 4 jobs...
+
+[Sun Nov 24 11:35:20 2024]
+localrule map_reads:
+    input: Data/samples/A.fastq, Data/genome.fa
+    output: Data/aligned_reads/A_aligned.sam
+    log: Data/aligned_reads/A.map.log
+    jobid: 3
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Sun Nov 24 11:35:20 2024]
+localrule setup_directories:
+    output: Data/.setup_done
+    jobid: 1
+    reason: Forced execution
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Sun Nov 24 11:35:20 2024]
+localrule map_reads:
+    input: Data/samples/B.fastq, Data/genome.fa
+    output: Data/aligned_reads/B_aligned.sam
+    log: Data/aligned_reads/B.map.log
+    jobid: 5
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+
+[Sun Nov 24 11:35:20 2024]
+localrule map_reads:
+    input: Data/samples/C.fastq, Data/genome.fa
+    output: Data/aligned_reads/C_aligned.sam
+    log: Data/aligned_reads/C.map.log
+    jobid: 7
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+Touching output file Data/.setup_done.
+[Sun Nov 24 11:35:20 2024]
+Finished job 1.
+1 of 8 steps (12%) done
+[Sun Nov 24 11:35:20 2024]
+Finished job 5.
+2 of 8 steps (25%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:35:20 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/B_aligned.sam
+    output: Data/aligned_reads/B_marked_sorted.bam
+    log: Data/aligned_reads/B.mark.log
+    jobid: 4
+    reason: Forced execution
+    wildcards: sample=B
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:35:20 2024]
+Finished job 3.
+3 of 8 steps (38%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:35:20 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/A_aligned.sam
+    output: Data/aligned_reads/A_marked_sorted.bam
+    log: Data/aligned_reads/A.mark.log
+    jobid: 2
+    reason: Forced execution
+    wildcards: sample=A
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:35:20 2024]
+Finished job 7.
+4 of 8 steps (50%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:35:20 2024]
+localrule mark_duplicates:
+    input: Data/aligned_reads/C_aligned.sam
+    output: Data/aligned_reads/C_marked_sorted.bam
+    log: Data/aligned_reads/C.mark.log
+    jobid: 6
+    reason: Forced execution
+    wildcards: sample=C
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:35:26 2024]
+Finished job 2.
+5 of 8 steps (62%) done
+[Sun Nov 24 11:35:26 2024]
+Finished job 6.
+6 of 8 steps (75%) done
+[Sun Nov 24 11:35:26 2024]
+Finished job 4.
+7 of 8 steps (88%) done
+Select jobs to execute...
+Execute 1 jobs...
+
+[Sun Nov 24 11:35:26 2024]
+localrule all:
+    input: Data/.setup_done, Data/aligned_reads/A_marked_sorted.bam, Data/aligned_reads/B_marked_sorted.bam, Data/aligned_reads/C_marked_sorted.bam
+    jobid: 0
+    reason: Forced execution
+    resources: tmpdir=/var/folders/3y/73c51vdd5j9cylp2_sdm674m0000gn/T
+
+[Sun Nov 24 11:35:26 2024]
+Finished job 0.
+8 of 8 steps (100%) done
+Complete log: .snakemake/log/2024-11-24T113520.176919.snakemake.log
