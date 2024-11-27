@@ -64,10 +64,22 @@ rule map_reads:
         -R "@RG\\tID:{wildcards.sample}\\tPL:ILLUMINA\\tSM:{wildcards.sample}" \
         {input.reference} {input.fastq} > {output.sam} 2> {log}
         """
+rule sort_bam:
+    input:
+        sam = aligned_reads + "/{sample}_aligned.sam"
+    output:
+        sorted_bam = aligned_reads + "/{sample}_sorted.bam"
+    log:
+        aligned_reads + "/{sample}.sort.log"
+    shell:
+        """
+        echo 'Sorting BAM file for {wildcards.sample}'
+        samtools sort -o {output.sorted_bam} {input.sam} 2> {log}
+        """
 # Marks duplicate reads in the sorted BAM file 
 rule mark_duplicates:
     input:
-        aligned_sam = aligned_reads + "/{sample}_aligned.sam"
+        sorted_bam = aligned_reads + "/{sample}_sorted.bam"
     output:
         marked_bam = aligned_reads + "/{sample}_marked_sorted.bam"
     log:
@@ -75,7 +87,7 @@ rule mark_duplicates:
     shell:
         """
         echo 'Marking duplicates for {wildcards.sample}'
-        gatk MarkDuplicatesSpark -I {input.aligned_sam} -O {output.marked_bam}
+        gatk MarkDuplicatesSpark -I {input.sorted_bam} -O {output.marked_bam} 2> {log}
         """
 
 # Calls variants using GATK's HaplotypeCaller and outputs a GVCF.
