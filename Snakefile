@@ -19,6 +19,7 @@ reference_genome = config["input_files"]["reference_genome"]
 rule all:
     input:
         "Data/.setup_done",
+        expand(aligned_reads + "/{sample}_sorted.bam", sample=samples),
         expand(variants + "/{sample}_snps.vcf", sample=samples),
         expand(variants + "/{sample}_indels.vcf", sample=samples)
 
@@ -64,18 +65,7 @@ rule map_reads:
         -R "@RG\\tID:{wildcards.sample}\\tPL:ILLUMINA\\tSM:{wildcards.sample}" \
         {input.reference} {input.fastq} > {output.sam} 2> {log}
         """
-rule sort_bam:
-    input:
-        sam = aligned_reads + "/{sample}_aligned.sam"
-    output:
-        sorted_bam = aligned_reads + "/{sample}_sorted.bam"
-    log:
-        aligned_reads + "/{sample}.sort.log"
-    shell:
-        """
-        echo 'Sorting BAM file for {wildcards.sample}'
-        samtools sort -o {output.sorted_bam} {input.sam} 2> {log}
-        """
+
 # Marks duplicate reads in the sorted BAM file 
 rule mark_duplicates:
     input:
