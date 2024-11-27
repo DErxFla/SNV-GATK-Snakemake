@@ -19,7 +19,6 @@ reference_genome = config["input_files"]["reference_genome"]
 rule all:
     input:
         "Data/.setup_done",
-        expand(aligned_reads + "/{sample}_sorted.bam", sample=samples),
         expand(variants + "/{sample}_snps.vcf", sample=samples),
         expand(variants + "/{sample}_indels.vcf", sample=samples)
 
