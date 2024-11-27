@@ -68,7 +68,7 @@ rule map_reads:
 # Marks duplicate reads in the sorted BAM file 
 rule mark_duplicates:
     input:
-        sorted_bam = aligned_reads + "/{sample}_sorted.bam"
+        unsorted_sam = aligned_reads + "/{sample}_aligned.sam"
     output:
         marked_bam = aligned_reads + "/{sample}_marked_sorted.bam"
     log:
@@ -76,7 +76,7 @@ rule mark_duplicates:
     shell:
         """
         echo 'Marking duplicates for {wildcards.sample}'
-        gatk MarkDuplicatesSpark -I {input.sorted_bam} -O {output.marked_bam} 2> {log}
+        gatk MarkDuplicatesSpark -I {input.unsorted_sam} -O {output.marked_bam} 2> {log}
         """
 
 # Calls variants using GATK's HaplotypeCaller and outputs a GVCF.
