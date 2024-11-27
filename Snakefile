@@ -18,21 +18,21 @@ reference_genome = config["input_files"]["reference_genome"]
 # if something is missing --> error
 rule all:
     input:
-        "Data/.setup_done",
+        # "Data/.setup_done",
         expand(fastqc_dir + "/{sample}_fastqc.html", sample=samples),
-        expand(fastqc_dir + "/{sample}_fastqc.zip", sample=samples)
+        expand(fastqc_dir + "/{sample}_fastqc.zip", sample=samples),
         expand(variants + "/{sample}_snps.vcf", sample=samples),
         expand(variants + "/{sample}_indels.vcf", sample=samples)
 
-# creates necessary directories for the outputs 
-rule setup_directories:
-    output:
-        touch("Data/.setup_done")
-    shell:
-        """
-        mkdir -p {fastqc_dir} {aligned_reads} {variants}
-        touch Data/.setup_done
-        """
+# # creates necessary directories for the outputs 
+# rule setup_directories:
+#     output:
+#         touch("Data/.setup_done")
+#     shell:
+#         """
+#         mkdir -p {fastqc_dir} {aligned_reads} {variants}
+#         touch Data/.setup_done
+#         """
 
 # this rule runs FastQC on raw FastQ files to assess sequencing quality before mapping 
 # (next step would be trimming if bad quality, here it wasn't the case)
@@ -112,6 +112,7 @@ rule select_snps:
         echo 'Selecting SNPs for {wildcards.sample}'
         gatk SelectVariants -R {input.reference} -V {input.vcf} --select-type SNP -O {output.snps}
         """
+
 # Selects INDELs from the GVCF
 rule select_indels:
     input:
