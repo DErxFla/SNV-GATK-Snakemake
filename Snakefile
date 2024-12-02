@@ -2,11 +2,18 @@
 
 configfile: "config.yaml"
 
-# Get variables from config file
-# samples
-samples = config["samples"]
+import os
+import glob
+
+# List all .fastq files in the specified folder
+fastq_folder = config["folders"]["fastq_folder"]
+fastq_files = glob.glob(os.path.join(fastq_folder, "*.fastq"))
+# Extract sample names from file names
+# Assuming file names are like "sample1.fastq", "sample2.fastq", etc.
+samples = [os.path.basename(f).replace(".fastq", "") for f in fastq_files]
+
+
 # output directories 
-FastQ_Dir = config["folders"]["FastQ_Dir"]
 fastqc_dir = config["folders"]["fastqc_dir"]
 aligned_reads = config["folders"]["aligned_reads"]
 variants = config["folders"]["variants"]
@@ -24,21 +31,11 @@ rule all:
         expand(variants + "/{sample}_snps.vcf", sample=samples),
         expand(variants + "/{sample}_indels.vcf", sample=samples)
 
-# # creates necessary directories for the outputs 
-# rule setup_directories:
-#     output:
-#         touch("Data/.setup_done")
-#     shell:
-#         """
-#         mkdir -p {fastqc_dir} {aligned_reads} {variants}
-#         touch Data/.setup_done
-#         """
-
 # this rule runs FastQC on raw FastQ files to assess sequencing quality before mapping 
 # (next step would be trimming if bad quality, here it wasn't the case)
 rule fastqc:
     input:
-        fastq = FastQ_Dir + "/{sample}.fastq"
+        fastq = fastq_folder + "/{sample}.fastq"
     output:
         html = fastqc_dir + "/{sample}_fastqc.html",
         zip = fastqc_dir + "/{sample}_fastqc.zip"
@@ -53,7 +50,7 @@ rule fastqc:
 # Maps reads to the reference genome using BWA and outputs an unsorted BAM.
 rule map_reads:
     input:
-        fastq = FastQ_Dir + "/{sample}.fastq",
+        fastq = fastq_folder + "/{sample}.fastq",
         reference = reference_genome
     output:
         sam = aligned_reads + "/{sample}_aligned.sam"
@@ -75,10 +72,15 @@ rule mark_duplicates:
         marked_bam = aligned_reads + "/{sample}_marked_sorted.bam"
     log:
         aligned_reads + "/{sample}.mark.log"
+    params:
+        cores = 8  # Number of cores to use
     shell:
         """
         echo 'Marking duplicates for {wildcards.sample}'
-        gatk MarkDuplicatesSpark -I {input.unsorted_sam} -O {output.marked_bam} 2> {log}
+        gatk MarkDuplicatesSpark \
+            -I {input.unsorted_sam} \
+            -O {output.marked_bam} \
+            --executor-cores {params.cores} 2> {log}
         """
 
 # Calls variants using GATK's HaplotypeCaller and outputs a GVCF.
