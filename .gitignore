@@ -5,5 +5,5 @@
 bash_script.sh
 # Ignore all PNG and SVG files in the repo
 *.png
-!dag/workflow_diagram.png
+!dag/A_workflow.png
 .DS_Store
