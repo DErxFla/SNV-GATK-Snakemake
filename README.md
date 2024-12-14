@@ -58,6 +58,8 @@ This guideline served as the foundation for building the Snakemake pipeline, ens
 
 
 ## Visual Overview
+Visual overview of Pipeline processes on example sample A: 
+
 ![workflow_figure](dag/A_workflow.png)
 
 
