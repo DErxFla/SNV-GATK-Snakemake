@@ -12,7 +12,6 @@ fastq_files = glob.glob(os.path.join(fastq_folder, "*.fastq"))
 # Assuming file names are like "sample1.fastq", "sample2.fastq", etc.
 samples = [os.path.basename(f).replace(".fastq", "") for f in fastq_files]
 
-
 # output directories 
 fastqc_dir = config["folders"]["fastqc_dir"]
 aligned_reads = config["folders"]["aligned_reads"]
@@ -72,15 +71,13 @@ rule mark_duplicates:
         marked_bam = aligned_reads + "/{sample}_marked_sorted.bam"
     log:
         aligned_reads + "/{sample}.mark.log"
-    params:
-        cores = 8  # Number of cores to use
     shell:
         """
         echo 'Marking duplicates for {wildcards.sample}'
         gatk MarkDuplicatesSpark \
             -I {input.unsorted_sam} \
             -O {output.marked_bam} \
-            --executor-cores {params.cores} 2> {log}
+            2> {log}
         """
 
 # Calls variants using GATK's HaplotypeCaller and outputs a GVCF.
