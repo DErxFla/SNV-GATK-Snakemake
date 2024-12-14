@@ -58,7 +58,7 @@ This guideline served as the foundation for building the Snakemake pipeline, ens
 
 
 ## Visual Overview
-![workflow_figure](rulegraph.svg)
+![workflow_figure](dag/A_workflow.png)
 
 
 

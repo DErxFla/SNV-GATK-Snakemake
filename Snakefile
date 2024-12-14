@@ -12,6 +12,14 @@ fastq_files = glob.glob(os.path.join(fastq_folder, "*.fastq"))
 # Assuming file names are like "sample1.fastq", "sample2.fastq", etc.
 samples = [os.path.basename(f).replace(".fastq", "") for f in fastq_files]
 
+# Extract sample names from file names
+samples = [os.path.basename(f).replace(".fastq", "") for f in fastq_files]
+# Allow focusing on a single sample dynamically via config for dag workflows
+sample = config.get("sample", None)
+if sample:
+    samples = [sample]
+
+
 # output directories 
 fastqc_dir = config["folders"]["fastqc_dir"]
 aligned_reads = config["folders"]["aligned_reads"]
@@ -28,7 +36,20 @@ rule all:
         expand(fastqc_dir + "/{sample}_fastqc.html", sample=samples),
         expand(fastqc_dir + "/{sample}_fastqc.zip", sample=samples),
         expand(variants + "/{sample}_snps.vcf", sample=samples),
-        expand(variants + "/{sample}_indels.vcf", sample=samples)
+        expand(variants + "/{sample}_indels.vcf", sample=samples),
+        expand("dag/{sample}_workflow.png", sample=samples)
+
+rule generate_dag:
+    input:
+        fastqc_dir + "/{sample}_fastqc.html"  # Any key output from the sample workflow
+    output:
+        dag = "dag/{sample}_workflow.png"  # Diagram output for the sample
+    shell:
+        """
+        mkdir -p dag
+        echo 'Generating DAG for sample {wildcards.sample}'
+        snakemake --config sample="{wildcards.sample}" --dag | dot -Tpng > {output.dag}
+        """
 
 # this rule runs FastQC on raw FastQ files to assess sequencing quality before mapping 
 # (next step would be trimming if bad quality, here it wasn't the case)
@@ -125,3 +146,4 @@ rule select_indels:
         """
         gatk SelectVariants -R {input.reference} -V {input.vcf} --select-type INDEL -O {output.indels}
         """
+

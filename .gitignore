@@ -1,4 +1,5 @@
 /Data
+/dag
 /download_tutorial
 /.snakemake
 bash_script.sh
